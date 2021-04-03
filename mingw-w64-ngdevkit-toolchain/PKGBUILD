@@ -1,0 +1,71 @@
+# Maintainer: Damien Ciabrini <damien.ciabrini@gmail.com>
+
+_realname=ngdevkit-toolchain
+pkgbase=mingw-w64-${_realname}
+pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
+pkgver=0.1+202103251604
+pkgrel=1
+pkgvernightly=nightly-202103251604
+pkgdesc="Toolchain for ngdevkit (mingw-w64)"
+arch=('x86_64')
+url='https://github.com/dciabrin/ngdevkit-toolchain'
+license=('LGPL3')
+makedepends=("autoconf"
+             "automake"
+             "bison"
+             "gawk"
+             "sed"
+             "texinfo"
+             "${MINGW_PACKAGE_PREFIX}-boost"
+             "${MINGW_PACKAGE_PREFIX}-bzip2"
+             "${MINGW_PACKAGE_PREFIX}-gcc"
+             "${MINGW_PACKAGE_PREFIX}-libtool"
+             "${MINGW_PACKAGE_PREFIX}-pkg-config"
+             "${MINGW_PACKAGE_PREFIX}-readline"
+             "${MINGW_PACKAGE_PREFIX}-xz")
+depends=("flex"
+         "${MINGW_PACKAGE_PREFIX}-expat"
+         "${MINGW_PACKAGE_PREFIX}-gettext"
+         "${MINGW_PACKAGE_PREFIX}-gmp"
+         "${MINGW_PACKAGE_PREFIX}-mpc"
+         "${MINGW_PACKAGE_PREFIX}-mpfr"
+         "${MINGW_PACKAGE_PREFIX}-ncurses"
+         "${MINGW_PACKAGE_PREFIX}-gmp"
+         "${MINGW_PACKAGE_PREFIX}-zlib")
+options=('!strip' '!buildflags' 'staticlibs')
+source=(https://github.com/dciabrin/${_realname}/archive/refs/tags/${pkgvernightly}.tar.gz)
+sha256sums=('cee9e9d523bccfc540cbbd3dc6644f52be95f9b13e225c67b8dbbc8a5437f8bd')
+
+pkgextraflags="--build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32"
+pkgsilent="-Wno-array-bounds -Wno-unused-command-line-argument"
+
+build() {
+  [[ -d "${srcdir}/build-${MINGW_CHOST}" ]] && rm -rf "${srcdir}/build-${MINGW_CHOST}"
+  mkdir -p "${srcdir}/build-${MINGW_CHOST}"
+  cd "${srcdir}/build-${MINGW_CHOST}"
+  # building the toolchain only works with MSYS sed
+  mkdir sed-msys2
+  cp /usr/bin/sed.exe sed-msys2
+  export PATH=$PWD/sed-msys2:$PATH
+  export CFLAGS="${pkgsilent} -Wno-implicit-function-declaration"
+  export CXXFLAGS="${pkgsilent} -fno-elide-type"
+  # TODO: check why concurrent build segfaults on MSYS2
+  make -j1 -C../${_realname}-${pkgvernightly} all BUILD=$(PWD)/build DESTDIR="${pkgdir}" prefix="${MINGW_PREFIX}" EXTRA_BUILD_FLAGS="${pkgextraflags}"
+}
+
+package() {
+  cd "${srcdir}/build-${MINGW_CHOST}"
+  export PATH=$PWD/sed-msys2:$PATH
+  make -j1 -C../${_realname}-${pkgvernightly} install BUILD=$(PWD)/build DESTDIR="${pkgdir}" prefix="${MINGW_PREFIX}" EXTRA_BUILD_FLAGS="${pkgextraflags}"
+  # fix the lack of symlink
+  mkdir -p ${pkgdir}${MINGW_PREFIX}/bin
+  for i in ar ranlib; do
+    cat >${pkgdir}${MINGW_PREFIX}/bin/m68k-neogeo-elf-$i.exe <<EOF
+#!/bin/sh
+# NOTE: MINGW lacks symlinks, so exec into the real binary otherwise
+# $i's plugin path will be invalid and $i will fail.
+exec ${MINGW_PREFIX}/m68k-neogeo-elf/bin/$i.exe \$*
+EOF
+    chmod +x ${pkgdir}${MINGW_PREFIX}/bin/m68k-neogeo-elf-$i.exe
+  done
+}
