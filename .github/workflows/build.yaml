@@ -1,0 +1,64 @@
+name: Build package
+on:
+  push:
+    branches-ignore:
+      - 'main'
+jobs:
+  pkgbuild:
+    name: "MSYS2 package"
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: git mingw-w64-x86_64-toolchain
+
+      - name: Build package
+        run: ./.ci/ci-build.sh
+
+      - name: Retrieve information from current commit
+        id: pkg_data
+        run: |
+          echo "::set-output name=tag::$(TZ=UTC git show --quiet --date='format-local:%Y%m%d%H%M' --format='nightly-%ad')"
+          echo "::set-output name=date::$(TZ=UTC git show --quiet --date='format-local:%Y-%m-%d %H:%M' --format='%ad')"
+          echo "::set-output name=body::$(git show --quiet --format='%s')"
+          echo "::set-output name=path::$(ls -1 mingw-w64-*/*pkg.tar.zst)"
+          echo "::set-output name=name::$(ls -1 mingw-w64-*/*pkg.tar.zst | sed -e 's|.*/||')"
+
+      - name: Create a release for nightly package
+        id: pkg_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.pkg_data.outputs.tag }}
+          release_name: Nightly build - ${{ steps.pkg_data.outputs.date }}
+          body: ${{ steps.pkg_data.outputs.body }}
+          draft: false
+          prerelease: true
+
+      - name: Upload nightly package
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.pkg_release.outputs.upload_url }}
+          asset_path: ${{ steps.pkg_data.outputs.path }}
+          asset_name: ${{ steps.pkg_data.outputs.name }}
+          asset_content_type: application/zstd
+
+      - name: Publish new package version
+        run: |
+          git config --global user.name 'CI build bot'
+          git config --global user.email '<>'
+          ./.ci/publish-new-package-version.sh

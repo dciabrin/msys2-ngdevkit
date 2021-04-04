@@ -12,6 +12,7 @@ url='https://github.com/dciabrin/emudbg'
 license=('LGPL3')
 makedepends=("autoconf"
              "automake"
+             "make"
              "${MINGW_PACKAGE_PREFIX}-gcc"
              "${MINGW_PACKAGE_PREFIX}-pkg-config")
 depends=("${MINGW_PACKAGE_PREFIX}-pkg-config")
@@ -30,7 +31,7 @@ build() {
     --prefix=${MINGW_PREFIX} \
     --build=${MINGW_CHOST} \
     --host=${MINGW_CHOST} \
-    --target=${MINGW_CHOST} \
+    --target=${MINGW_CHOST}
   make
 }
 
