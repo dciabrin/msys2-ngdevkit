@@ -23,6 +23,11 @@ jobs:
           update: true
           install: git mingw-w64-x86_64-toolchain
 
+      - name: Add ngdevkit repos
+        run: |
+          echo -e "[ngdevkit]\nSigLevel = PackageOptional\nServer = https://dciabrin.net/msys2-ngdevkit/\$arch" >> /etc/pacman.conf
+          pacman -Sy
+
       - name: Build package
         run: ./.ci/ci-build.sh
 

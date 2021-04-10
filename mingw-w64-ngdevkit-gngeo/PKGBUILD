@@ -3,9 +3,9 @@
 _realname=gngeo
 pkgbase=mingw-w64-ngdevkit-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-ngdevkit-${_realname}"
-pkgver=0.8.1+202103142159
+pkgver=0.8.1+202103282036
 pkgrel=1
-pkgvernightly=nightly-202103142159
+pkgvernightly=nightly-202103282036
 pkgdesc="Portable Neo-Geo emulator customized for ngdevkit (mingw-w64)"
 arch=('x86_64')
 url='https://github.com/dciabrin/gngeo'
@@ -13,6 +13,7 @@ license=('custom')
 makedepends=("autoconf"
              "autoconf-archive"
              "automake"
+             "make"
              "${MINGW_PACKAGE_PREFIX}-emudbg"
              "${MINGW_PACKAGE_PREFIX}-gcc"
              "${MINGW_PACKAGE_PREFIX}-libtool"
@@ -21,7 +22,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-SDL2"
          "${MINGW_PACKAGE_PREFIX}-glew")
 options=('!strip' '!buildflags' 'staticlibs')
 source=(https://github.com/dciabrin/${_realname}/archive/refs/tags/${pkgvernightly}.tar.gz)
-sha256sums=('29869d0a288f0dae9fe86adcca8022b7d5b1862f5a3f13db1f23c3aaa6512199')
+sha256sums=('7f1912d60aef889415e3c941984836fe66a1bcbd2e38cfcbc755fa4c149d69c6')
 
 build() {
   [[ -d "${srcdir}/build-${MINGW_CHOST}" ]] && rm -rf "${srcdir}/build-${MINGW_CHOST}"
@@ -37,7 +38,7 @@ build() {
     --target=${MINGW_CHOST} \
     --program-prefix=ngdevkit- \
     CFLAGS="-Wno-implicit-function-declaration -DGNGEORC=\\\"ngdevkit-gngeorc\\\"" \
-    GL_LIBS="-L/bin -lglew32 -lopengl32"
+    GL_LIBS="-L${MINGW_PREFIX}/bin -lglew32 -lopengl32"
   make -j1 pkgdatadir=${MINGW_PREFIX}/share/ngdevkit-gngeo
 }
 
