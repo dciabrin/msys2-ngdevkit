@@ -12,6 +12,7 @@ url='https://github.com/dciabrin/ngdevkit'
 license=('LGPL3')
 makedepends=("autoconf"
              "automake"
+             "make"
              "zip")
 depends=("${MINGW_PACKAGE_PREFIX}-ngdevkit-toolchain"
          "${MINGW_PACKAGE_PREFIX}-pkg-config"
