@@ -4,7 +4,7 @@ _realname=ngdevkit-toolchain
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
 pkgver=0.1+202103251604
-pkgrel=1
+pkgrel=2
 pkgvernightly=nightly-202103251604
 pkgdesc="Toolchain for ngdevkit (mingw-w64)"
 arch=('x86_64')
@@ -59,13 +59,15 @@ package() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   export PATH=$PWD/sed-msys2:$PATH
   make -j1 -C../${_realname}-${pkgvernightly} install BUILD=$(PWD)/build DESTDIR="${pkgdir}" prefix="${MINGW_PREFIX}" EXTRA_BUILD_FLAGS="${pkgextraflags}"
-  # fix the lack of symlink
+  # Remove the problematic symlinks
   mkdir -p ${pkgdir}${MINGW_PREFIX}/bin
   for i in ar ranlib; do
+    rm -f ${pkgdir}${MINGW_PREFIX}/bin/m68k-neogeo-elf-$i.exe
     cat >${pkgdir}${MINGW_PREFIX}/bin/m68k-neogeo-elf-$i.exe <<EOF
 #!/bin/sh
-# NOTE: MINGW lacks symlinks, so exec into the real binary otherwise
-# $i's plugin path will be invalid and $i will fail.
+# NOTE: MINGW may be configured to implement symlinks with direct copies,
+# which would break $i's plugin path. This wrapper execs into the real
+# binary, which is enough to fix that problem.
 exec ${MINGW_PREFIX}/m68k-neogeo-elf/bin/$i.exe \$*
 EOF
     chmod +x ${pkgdir}${MINGW_PREFIX}/bin/m68k-neogeo-elf-$i.exe
