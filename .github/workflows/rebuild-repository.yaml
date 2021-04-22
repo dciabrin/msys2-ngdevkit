@@ -1,0 +1,33 @@
+name: MSYS2 Repository
+on:
+  push:
+    branches:
+      - 'main'
+jobs:
+  pkgbuild:
+    name: "MSYS2 repository"
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      GH_USER: dciabrin
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: true
+          install: git mingw-w64-x86_64-jq
+
+      - name: Publish new package version
+        run: |
+          git config --global user.name 'CI build bot'
+          git config --global user.email '<>'
+          .ci/rebuild-msys2-repository.sh -u $GH_USER && cd repository && git push -f
