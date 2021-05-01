@@ -1,8 +1,10 @@
-name: MSYS2 Repository
+name: Repository
 on:
-  push:
-    branches:
-      - 'main'
+  workflow_run:
+    workflows:
+      - BuildPackage
+    types:
+      - completed
 jobs:
   pkgbuild:
     name: "MSYS2 repository"

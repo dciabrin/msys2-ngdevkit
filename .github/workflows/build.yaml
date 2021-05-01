@@ -1,4 +1,4 @@
-name: Build package
+name: BuildPackage
 on:
   push:
     branches-ignore:
