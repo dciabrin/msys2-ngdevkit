@@ -22,7 +22,7 @@ makedepends=("autoconf"
              "${MINGW_PACKAGE_PREFIX}-bzip2"
              "${MINGW_PACKAGE_PREFIX}-gcc"
              "${MINGW_PACKAGE_PREFIX}-libtool"
-             "${MINGW_PACKAGE_PREFIX}-pkg-config"
+             "${MINGW_PACKAGE_PREFIX}-pkgconf"
              "${MINGW_PACKAGE_PREFIX}-readline"
              "${MINGW_PACKAGE_PREFIX}-xz")
 depends=("flex"

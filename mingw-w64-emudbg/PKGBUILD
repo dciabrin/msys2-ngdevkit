@@ -14,7 +14,7 @@ makedepends=("autoconf"
              "automake"
              "make"
              "${MINGW_PACKAGE_PREFIX}-gcc"
-             "${MINGW_PACKAGE_PREFIX}-pkg-config")
+             "${MINGW_PACKAGE_PREFIX}-pkgconf")
 depends=("${MINGW_PACKAGE_PREFIX}-pkg-config")
 options=('!strip' '!buildflags' 'staticlibs')
 source=(https://github.com/dciabrin/${_realname}/archive/refs/tags/${pkgvernightly}.tar.gz)
