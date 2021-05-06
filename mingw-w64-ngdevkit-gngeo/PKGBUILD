@@ -41,7 +41,7 @@ build() {
     --with-glew \
     CFLAGS="-Wno-implicit-function-declaration -DGNGEORC=\\\"ngdevkit-gngeorc\\\"" \
     GL_LIBS="-L${MINGW_PREFIX}/bin -lglew32 -lopengl32"
-  make -j1 pkgdatadir=${MINGW_PREFIX}/share/ngdevkit-gngeo
+  MSYS2_ARG_CONV_EXCL="-DDATA_DIRECTORY=" make -j1 pkgdatadir=${MINGW_PREFIX}/share/ngdevkit-gngeo
 }
 
 package() {
