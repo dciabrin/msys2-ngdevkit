@@ -3,9 +3,9 @@
 _realname=emudbg
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=0.2+202111140851
+pkgver=0.2+202111140941
 pkgrel=1
-pkgvernightly=nightly-202111140851
+pkgvernightly=nightly-202111140941
 pkgdesc="Emulator-agnostic source-level debugging API (mingw-w64)"
 arch=('x86_64')
 url='https://github.com/dciabrin/emudbg'
@@ -18,7 +18,7 @@ makedepends=("autoconf"
 depends=("${MINGW_PACKAGE_PREFIX}-pkg-config")
 options=('!strip' '!buildflags' 'staticlibs')
 source=(https://github.com/dciabrin/${_realname}/archive/refs/tags/${pkgvernightly}.tar.gz)
-sha256sums=('427d92558be569f9db1ab09bfffa52b6a86f6474d5d21c97226603d4f234fe83')
+sha256sums=('7710197725f5e68e70247e6a6fc34d368c7978984da8ec71291c9111d7aa67ea')
 
 build() {
   [[ -d "${srcdir}/build-${MINGW_CHOST}" ]] && rm -rf "${srcdir}/build-${MINGW_CHOST}"
