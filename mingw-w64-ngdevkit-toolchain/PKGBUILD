@@ -40,7 +40,6 @@ source=(https://github.com/dciabrin/${_realname}/archive/refs/tags/${pkgvernight
 sha256sums=('099ca0d46683772a28f838517e56338d4945915126d2e4233ab449fba09b401d')
 
 pkgextraflags="--build=x86_64-w64-mingw32 --host=x86_64-w64-mingw32"
-pkgsilent="-Wno-array-bounds -Wno-unused-command-line-argument"
 
 build() {
   [[ -d "${srcdir}/build-${MINGW_CHOST}" ]] && rm -rf "${srcdir}/build-${MINGW_CHOST}"
@@ -50,16 +49,14 @@ build() {
   mkdir sed-msys2
   cp /usr/bin/sed.exe sed-msys2
   export PATH=$PWD/sed-msys2:$PATH
-  export CFLAGS="${pkgsilent} -Wno-implicit-function-declaration"
-  export CXXFLAGS="${pkgsilent} -fno-elide-type"
   # TODO: check why concurrent build segfaults on MSYS2
-  make -j1 -C../${_realname}-${pkgvernightly} all BUILD=$(PWD)/build DESTDIR="${pkgdir}" prefix="${MINGW_PREFIX}" EXTRA_BUILD_FLAGS="${pkgextraflags}"
+  make -C../${_realname}-${pkgvernightly} all BUILD=$(PWD)/build DESTDIR="${pkgdir}" prefix="${MINGW_PREFIX}" EXTRA_BUILD_FLAGS="${pkgextraflags}"
 }
 
 package() {
   cd "${srcdir}/build-${MINGW_CHOST}"
   export PATH=$PWD/sed-msys2:$PATH
-  make -j1 -C../${_realname}-${pkgvernightly} install BUILD=$(PWD)/build DESTDIR="${pkgdir}" prefix="${MINGW_PREFIX}" EXTRA_BUILD_FLAGS="${pkgextraflags}"
+  make -C../${_realname}-${pkgvernightly} install BUILD=$(PWD)/build DESTDIR="${pkgdir}" prefix="${MINGW_PREFIX}" EXTRA_BUILD_FLAGS="${pkgextraflags}"
   # Remove the problematic symlinks
   mkdir -p ${pkgdir}${MINGW_PREFIX}/bin
   for i in ar ranlib; do
