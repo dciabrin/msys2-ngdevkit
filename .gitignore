@@ -2,3 +2,10 @@
 *~
 \#*#
 .#*
+
+# Builds tmp
+*.log
+nightly-*.tar.*
+pkg/
+src/
+*.pkg.tar.zst
