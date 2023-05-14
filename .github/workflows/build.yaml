@@ -19,9 +19,9 @@ jobs:
       - name: Install MSYS2
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: UCRT64
           update: true
-          install: git mingw-w64-x86_64-toolchain
+          install: git mingw-w64-ucrt-x86_64-toolchain
 
       - name: Add ngdevkit repos
         run: |
@@ -40,7 +40,15 @@ jobs:
           echo "::set-output name=path::$(ls -1 mingw-w64-*/*pkg.tar.zst)"
           echo "::set-output name=name::$(ls -1 mingw-w64-*/*pkg.tar.zst | sed -e 's|.*/||')"
 
-      - name: Create a release for nightly package
+      - name: Check for release for nightly package
+        uses: mukunku/tag-exists-action@v1.2.0
+        id: check_release
+        with:
+          tag: ${{ steps.pkg_data.outputs.tag }}
+
+      # TODO: use an action with built-in idempotency
+      - if: ${{ !steps.check_release.outputs.exists }}
+        name: Create a release for nightly package
         id: pkg_release
         uses: actions/create-release@v1
         env:
@@ -52,7 +60,9 @@ jobs:
           draft: false
           prerelease: true
 
-      - name: Upload nightly package
+      # TODO: use an action with built-in idempotency
+      - if: ${{ !steps.check_release.outputs.exists }}
+        name: Upload nightly package
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

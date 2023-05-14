@@ -24,9 +24,9 @@ jobs:
       - name: Install MSYS2
         uses: msys2/setup-msys2@v2
         with:
-          msystem: MINGW64
+          msystem: UCRT64
           update: true
-          install: git mingw-w64-x86_64-jq
+          install: git mingw-w64-ucrt-x86_64-jq
 
       - name: Publish new package version
         run: |

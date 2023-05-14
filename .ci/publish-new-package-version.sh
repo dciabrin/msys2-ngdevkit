@@ -8,11 +8,15 @@ if [ -z "$BRANCH" ]; then
     BRANCH=$(git branch --show-current)
 fi
 PKG=$(.ci/pkg-name-from-branch.sh $BRANCH)
-echo "Publishing new package for $PKG (branch $BRANCH)"
+echo "Publishing new package for $PKG"
 test -f mingw-w64-$PKG/PKGBUILD
 
-# merge from the detached branch to master
-git format-patch -1 -o new-version
+# Ensure that CI has fetched all the refs we need
+git fetch --all
+
+# Merge the original commit as a fast forward to avoid diverging
 git checkout main
-git am new-version/*
+git merge origin/nightly/$PKG --ff-only
 git push
+echo
+echo "New PKGBUILD version for $PKG published"
