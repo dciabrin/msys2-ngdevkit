@@ -47,7 +47,7 @@ jobs:
           tag: ${{ steps.pkg_data.outputs.tag }}
 
       # TODO: use an action with built-in idempotency
-      - if: ${{ !steps.check_release.outputs.exists }}
+      - if: ${{ steps.check_release.outputs.exists == 'false' }}
         name: Create a release for nightly package
         id: pkg_release
         uses: actions/create-release@v1
@@ -61,7 +61,7 @@ jobs:
           prerelease: true
 
       # TODO: use an action with built-in idempotency
-      - if: ${{ !steps.check_release.outputs.exists }}
+      - if: ${{ steps.check_release.outputs.exists == 'false' }}
         name: Upload nightly package
         uses: actions/upload-release-asset@v1
         env:
