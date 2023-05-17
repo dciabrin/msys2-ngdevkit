@@ -32,4 +32,5 @@ jobs:
         run: |
           git config --global user.name 'CI build bot'
           git config --global user.email '<>'
+          git config --global http.postBuffer 33554432
           .ci/rebuild-msys2-repository.sh -u $GH_USER && cd repository && git push -f
