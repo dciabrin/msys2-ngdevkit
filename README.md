@@ -7,7 +7,7 @@
 [![Nightly build for ngdevkit-toolchain](https://img.shields.io/github/actions/workflow/status/dciabrin/msys2-ngdevkit/build.yaml?branch=nightly%2Fngdevkit-toolchain&label=ngdevkit-toolchain)](https://github.com/dciabrin/msys2-ngdevkit/actions/workflows/build.yaml?query=branch%3Anightly%2Fngdevkit-toolchain)
 [![Nightly build for ngdevkit](https://img.shields.io/github/actions/workflow/status/dciabrin/msys2-ngdevkit/build.yaml?branch=nightly%2Fngdevkit&label=ngdevkit)](https://github.com/dciabrin/msys2-ngdevkit/actions/workflows/build.yaml?query=branch%3Anightly%2Fngdevkit)
 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/dciabrin/msys2-ngdevkit/rebuild-repository.yaml?label=MSYS2 repository)](https://github.com/dciabrin/msys2-ngdevkit/actions/workflows/rebuild-repository.yaml)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/dciabrin/msys2-ngdevkit/rebuild-repository.yaml?label=MSYS2%20repository)](https://github.com/dciabrin/msys2-ngdevkit/actions/workflows/rebuild-repository.yaml)
 
 
 ## Description
