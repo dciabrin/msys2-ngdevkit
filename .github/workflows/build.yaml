@@ -43,7 +43,7 @@ jobs:
           rel_name=$(ls -1 mingw-w64-$PKG/*pkg.tar.zst | sed -e 's|.*/||')
           echo "tag=${rel_tag}" >> "$GITHUB_OUTPUT"
           echo "date=${rel_date}" >> "$GITHUB_OUTPUT"
-          echo "body=\"${rel_body}\"" >> "$GITHUB_OUTPUT"
+          echo "body=${rel_body}" >> "$GITHUB_OUTPUT"
           echo "path=${rel_path}" >> "$GITHUB_OUTPUT"
           echo "name=${rel_name}" >> "$GITHUB_OUTPUT"
 
