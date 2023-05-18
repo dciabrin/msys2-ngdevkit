@@ -34,11 +34,18 @@ jobs:
       - name: Retrieve information from current commit
         id: pkg_data
         run: |
-          echo "::set-output name=tag::$(TZ=UTC git show --quiet --date='format-local:%Y%m%d%H%M' --format='nightly-%ad')"
-          echo "::set-output name=date::$(TZ=UTC git show --quiet --date='format-local:%Y-%m-%d %H:%M' --format='%ad')"
-          echo "::set-output name=body::$(git show --quiet --format='%s')"
-          echo "::set-output name=path::$(ls -1 mingw-w64-*/*pkg.tar.zst)"
-          echo "::set-output name=name::$(ls -1 mingw-w64-*/*pkg.tar.zst | sed -e 's|.*/||')"
+          PKG=$(.ci/pkg-name-from-branch.sh)
+          source mingw-w64-$PKG/PKGBUILD
+          rel_tag=${PKG}-${pkgver}-${pkgrel}
+          rel_date=$(echo ${pkgvernightly#*-} | sed 's/\(....\)\(..\)\(..\)\(..\)\(..\)/\1-\2-\3 \4:\5/')
+          rel_body=$(git show --quiet --format='%s')
+          rel_path=$(ls -1 mingw-w64-$PKG/*pkg.tar.zst)
+          rel_name=$(ls -1 mingw-w64-$PKG/*pkg.tar.zst | sed -e 's|.*/||')
+          echo "tag=${rel_tag}" >> "$GITHUB_OUTPUT"
+          echo "date=${rel_date}" >> "$GITHUB_OUTPUT"
+          echo "body=\"${rel_body}\"" >> "$GITHUB_OUTPUT"
+          echo "path=${rel_path}" >> "$GITHUB_OUTPUT"
+          echo "name=${rel_name}" >> "$GITHUB_OUTPUT"
 
       - name: Check for release for nightly package
         uses: mukunku/tag-exists-action@v1.2.0

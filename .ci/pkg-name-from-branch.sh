@@ -9,5 +9,8 @@ set -eu
 # nightly/ngdevkit-gngeo
 # ngdevkit-gngeo-202001191709
 # ngdevkit-gngeo
-BRANCH=$1
+BRANCH=${1:-}
+if [ -z "${BRANCH}" ]; then
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+fi
 echo $BRANCH | sed -E -e 's%^refs/heads/%%' -e 's%-[0-9]*$%%' -e 's%^(nightly/)?(.*)%\2%'
