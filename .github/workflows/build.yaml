@@ -91,3 +91,5 @@ jobs:
         run: |
           PKG=$(.ci/pkg-name-from-branch.sh)
           .ci/gc-nightly-releases.sh --user dciabrin --package $PKG
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
