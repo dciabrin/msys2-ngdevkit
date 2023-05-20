@@ -36,7 +36,9 @@ trap cleanup EXIT
 
 # ----------------- options parsing -----------------
 
-GITHUB_TOKEN=${GH_TOKEN:-}
+if [ -z "${GITHUB_TOKEN:-}" ]; then
+    GITHUB_TOKEN=${GH_TOKEN:-}
+fi
 DRYRUN=
 
 while true; do
