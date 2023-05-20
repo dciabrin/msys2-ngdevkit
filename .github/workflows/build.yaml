@@ -86,3 +86,8 @@ jobs:
           git config --global user.name 'CI build bot'
           git config --global user.email '<>'
           ./.ci/publish-new-package-version.sh
+
+      - name: Clean up old releases and binaries
+        run: |
+          PKG=$(.ci/pkg-name-from-branch.sh)
+          .ci/gc-nightly-releases.sh --user dciabrin --package $PKG
