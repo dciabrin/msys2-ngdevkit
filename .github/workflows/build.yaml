@@ -21,7 +21,9 @@ jobs:
         with:
           msystem: UCRT64
           update: true
-          install: git mingw-w64-ucrt-x86_64-toolchain
+          install:
+            git mingw-w64-ucrt-x86_64-toolchain
+            mingw-w64-ucrt-x86_64-jq
 
       - name: Add ngdevkit repos
         run: |
