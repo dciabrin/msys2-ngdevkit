@@ -72,9 +72,10 @@ jq -r '.. | .browser_download_url? // empty' releases > tarballs
 pkgs=""
 for subproject in emudbg ngdevkit-gngeo ngdevkit-toolchain ngdevkit; do
     echo "Looking for latest releases for $subproject..."
-    pkg=$(grep "$subproject-[0-9]" tarballs | sort | tail -1);
-    test -n "$pkg"
-    pkgs="$pkgs $pkg"
+    pkg=$(grep "$subproject-[0-9]" tarballs | grep -v untagged | sort | tail -1);
+    if [ -n "$pkg" ]; then
+        pkgs="$pkgs $pkg"
+    fi
 done
 
 # If we end up here, we know we have all the necessary package to
