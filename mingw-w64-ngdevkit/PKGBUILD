@@ -17,7 +17,8 @@ makedepends=("autoconf"
 depends=("${MINGW_PACKAGE_PREFIX}-ngdevkit-toolchain"
          "${MINGW_PACKAGE_PREFIX}-pkgconf"
          "${MINGW_PACKAGE_PREFIX}-python"
-         "${MINGW_PACKAGE_PREFIX}-python-pygame")
+         "${MINGW_PACKAGE_PREFIX}-python-pygame"
+         "${MINGW_PACKAGE_PREFIX}-python-yaml")
 options=('!strip' '!buildflags' 'staticlibs')
 source=(https://github.com/dciabrin/ngdevkit/archive/${pkgvernightly}.tar.gz)
 sha256sums=('9e98b7149921b8c47f3c8eb36e7cff2988517a7168829f63bb7cc8ff10a8837a')
