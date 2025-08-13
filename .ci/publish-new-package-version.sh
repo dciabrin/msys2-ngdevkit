@@ -2,6 +2,7 @@
 set -eu
 
 # The package built depends on the branch's name
+GITHUB_REF=${GITHUB_REF:-}
 BRANCH=${GITHUB_REF#refs/heads/}
 if [ -z "$BRANCH" ]; then
     echo "Script not run in CI. Use local branch name for building package"
@@ -9,7 +10,7 @@ if [ -z "$BRANCH" ]; then
 fi
 PKG=$(.ci/pkg-name-from-branch.sh $BRANCH)
 echo "Publishing new package for $PKG"
-test -f mingw-w64-$PKG/PKGBUILD
+test -f $PKG.PKGBUILD
 
 # Ensure that CI has fetched all the refs we need
 git fetch --all
