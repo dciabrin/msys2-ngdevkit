@@ -37,13 +37,13 @@ jobs:
         id: pkg_data
         run: |
           PKG=$(.ci/pkg-name-from-branch.sh)
-          source mingw-w64-$PKG/PKGBUILD
+          source $PKG.PKGBUILD
           rel_pkg=${PKG}
           rel_tag=${PKG}-${pkgver}-${pkgrel}
           rel_date=$(echo ${pkgvernightly#*-} | sed 's/\(....\)\(..\)\(..\)\(..\)\(..\)/\1-\2-\3 \4:\5/')
           rel_body=$(git show --quiet --format='%s')
-          rel_path=$(ls -1 mingw-w64-$PKG/*pkg.tar.zst)
-          rel_name=$(ls -1 mingw-w64-$PKG/*pkg.tar.zst | sed -e 's|.*/||')
+          rel_path=$(ls -1 *pkg.tar.zst)
+          rel_name=$(ls -1 *pkg.tar.zst | sed -e 's|.*/||')
           echo "pkg=${rel_pkg}" >> "$GITHUB_OUTPUT"
           echo "tag=${rel_tag}" >> "$GITHUB_OUTPUT"
           echo "date=${rel_date}" >> "$GITHUB_OUTPUT"

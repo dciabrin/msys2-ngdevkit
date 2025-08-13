@@ -38,5 +38,5 @@ ENV=${ENV:-ucrt64}
 echo "Building package $PKG for target subsystem $ENV"
 echo ""
 
-cd mingw-w64-$PKG
-MINGW_ARCH=${ENV} makepkg-mingw --noconfirm --noprogressbar -sCLf
+echo BUILDDIR=$PWD MINGW_ARCH=ucrt64 makepkg-mingw --noconfirm --noprogressbar --syncdeps --cleanbuild --log --force -p $PKG.PKGBUILD
+BUILDDIR=$PWD MINGW_ARCH=ucrt64 makepkg-mingw --noconfirm --noprogressbar --syncdeps --cleanbuild --log --force -p $PKG.PKGBUILD
