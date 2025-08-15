@@ -133,7 +133,7 @@ cd $MSYS2_REPO_BASEDIR
 # Checkout the main branch before querying the package's properties
 git_checkout main
 
-PKGBUILD_FILE=$(realpath mingw-w64-$PKG/PKGBUILD)
+PKGBUILD_FILE=$(realpath $PKG.PKGBUILD)
 PKGBUILD_CURRENT_URL=$(bash -c "source ${PKGBUILD_FILE}; echo \$source")
 
 if [ "${PKGBUILD_CURRENT_URL}" = "${ARCHIVE}" ]; then
