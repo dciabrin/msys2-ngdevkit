@@ -3,9 +3,9 @@
 _realname=ngdevkit-toolchain
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=0.1+202506231313
-pkgrel=3
-pkgvernightly=nightly-202506231313
+pkgver=0.1+202508170852
+pkgrel=1
+pkgvernightly=nightly-202508170852
 pkgdesc="Toolchain for ngdevkit (mingw-w64)"
 arch=('x86_64')
 url='https://github.com/dciabrin/ngdevkit-toolchain'
@@ -37,7 +37,7 @@ depends=("flex"
          "${MINGW_PACKAGE_PREFIX}-zlib")
 options=('!strip' '!buildflags' 'staticlibs')
 source=(https://github.com/dciabrin/${_realname}/archive/refs/tags/${pkgvernightly}.tar.gz)
-sha256sums=('f5be1f9d56704bc89a2dd7169539d12bcf4f8ededf2d5f422a46555afb21436e')
+sha256sums=('586f7ac7936cda535192033ff146f4c09c8a64edce9454a3ccbd1cd55e0a4e81')
 noextract=(${pkgvernightly}.tar.gz)
 
 prepare() {
