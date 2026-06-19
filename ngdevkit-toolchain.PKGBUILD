@@ -4,7 +4,7 @@ _realname=ngdevkit-toolchain
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
 pkgver=0.1+202606181616
-pkgrel=1
+pkgrel=2
 pkgvernightly=nightly-202606181616
 pkgdesc="Toolchain for ngdevkit (mingw-w64)"
 arch=('x86_64')
@@ -30,6 +30,7 @@ depends=("flex"
          "${MINGW_PACKAGE_PREFIX}-expat"
          "${MINGW_PACKAGE_PREFIX}-gettext"
          "${MINGW_PACKAGE_PREFIX}-gmp"
+         "${MINGW_PACKAGE_PREFIX}-isl"
          "${MINGW_PACKAGE_PREFIX}-mpc"
          "${MINGW_PACKAGE_PREFIX}-mpfr"
          "${MINGW_PACKAGE_PREFIX}-ncurses"
