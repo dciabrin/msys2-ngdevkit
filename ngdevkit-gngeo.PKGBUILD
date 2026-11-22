@@ -3,9 +3,9 @@
 _realname=gngeo
 pkgbase=mingw-w64-ngdevkit-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-ngdevkit-${_realname}"
-pkgver=0.8.1+202607271849
+pkgver=0.8.1+202611221114
 pkgrel=1
-pkgvernightly=nightly-202607271849
+pkgvernightly=nightly-202611221114
 pkgdesc="Portable Neo-Geo emulator customized for ngdevkit (mingw-w64)"
 arch=('x86_64')
 url='https://github.com/dciabrin/gngeo'
@@ -22,7 +22,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-SDL2"
          "${MINGW_PACKAGE_PREFIX}-glew")
 options=('!strip' '!buildflags' 'staticlibs')
 source=(https://github.com/dciabrin/${_realname}/archive/refs/tags/${pkgvernightly}.tar.gz)
-sha256sums=('230e198e27e5f9ffc683a3f85097403c27110609879e2a84fa43c23472b8c3a2')
+sha256sums=('b4632db9e962a711f50d3bf98ff9f71766ea8bcb6d6351b084bdb108e277fe96')
 
 build() {
   [[ -d "${srcdir}/build-${MINGW_CHOST}" ]] && rm -rf "${srcdir}/build-${MINGW_CHOST}"
