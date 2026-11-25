@@ -3,9 +3,9 @@
 _realname=ngdevkit
 pkgbase=mingw-w64-${_realname}
 pkgname="${MINGW_PACKAGE_PREFIX}-${_realname}"
-pkgver=0.5+202611232216
+pkgver=0.5+202611242230
 pkgrel=1
-pkgvernightly=nightly-202611232216
+pkgvernightly=nightly-202611242230
 pkgdesc="Open source development for Neo-Geo (mingw-w64)"
 arch=('x86_64')
 url='https://github.com/dciabrin/ngdevkit'
@@ -21,7 +21,7 @@ depends=("${MINGW_PACKAGE_PREFIX}-ngdevkit-toolchain"
          "${MINGW_PACKAGE_PREFIX}-python-ruamel-yaml")
 options=('!strip' '!buildflags' 'staticlibs')
 source=(https://github.com/dciabrin/ngdevkit/archive/${pkgvernightly}.tar.gz)
-sha256sums=('6bb00ec161e6f7df6498fdf2d96c066bac760dd1425b12025771fe68b501c2a7')
+sha256sums=('d49c38cba9781ea7437e3083784700b759d8a6d4c584eedfb6b926d497daf917')
 
 build() {
   cd ${_realname}-${pkgvernightly}
